@@ -1,5 +1,7 @@
 body {
-  background-color: cornsilk;
+  background-image: url('./pexels-photo-703016.jpeg');
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .App {
@@ -15,8 +17,10 @@ body {
   width: 70vw;
   height: 10vh;
   padding-top: 6vh;
-  background-color: rgba(10, 10, 10,0.3);
+  background-color: rgba(130,158,189, 0.695);
   border-radius: 10px;
+  color: white;
+  font-size: 3em;
 }
 
 .MainArea {
