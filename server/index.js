@@ -7,7 +7,7 @@
          nutritionPlansController = require( __dirname + `/controllers/nutritionPlansController`),
             activityLevelsBaseURL = `/api/activityLevels`,
             nutritionPlansBaseURL = `/api/nutritionPlans`,
-                             PORT = 3000;
+                             PORT = process.env.PORT || 3001;
 
 
 //use BodyParser

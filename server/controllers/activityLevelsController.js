@@ -8,7 +8,7 @@ let activityLevels = [
     },
     {
         id: 1,
-        name: "Lightly Actice",
+        name: "Lightly Active",
         description: "You have an office job and perform very light exercise 1-3 times a week.",
         multiplier: 1.275
     },

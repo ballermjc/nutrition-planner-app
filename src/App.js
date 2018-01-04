@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BMR from './components/BMRComponent';
+import Macros from './components/MacrosComponent';
 import './App.css';
 
 class App extends Component {
@@ -9,6 +10,7 @@ class App extends Component {
       <h1 className="Title">Nutrition Planner</h1>
         <div className="MainArea">
           <BMR />
+          <Macros />
         </div>
       </div>
     );

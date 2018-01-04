@@ -8,28 +8,28 @@ export default class BMR extends Component {
             feet: null,
             inches: null,
             weight: null,
-            gender: 'female',
+            gender: '',
             age: null,
-            bmr: null
+            bmr: null,
+            activityLevels: [],
+            chosenActivityLevel: null
         };
     }
 
     handleChange(event) {
-        console.log("NAME", event.target.name);
-        console.log("VALUE", event.target.value);
+        console.log(event.target.value);
         const category = event.target.name;
         const val = event.target.value;
         this.setState({
             [category]: val
         });
         console.log(this.state);
-
     }
 
     calculateBMR() {
         let weight = this.state.weight;
-        let bmr = 24*.925*weight/2.2;
-        console.log(bmr);
+        let multiplier = this.state.chosenActivityLevel;
+        let bmr = Math.round(24*.925*multiplier*weight/2.2);
         this.setState({
             bmr: bmr
         });
@@ -43,12 +43,14 @@ export default class BMR extends Component {
         
     }
 
+    
     view() {
-        axios.get('https://activitylevels-ballermjc.c9users.io/api/activityLevels')
+        axios.get(`/api/activityLevels`)
         .then( res => {
-            console.log(res);
-            let data = res;
-            return data;
+            let data = res.data;
+            this.setState({
+                activityLevels: data
+            });
         })
         .catch(err => console.log(err));
     }
@@ -56,10 +58,23 @@ export default class BMR extends Component {
     
 
     render(){
+
+
+        const activityLevels = this.state.activityLevels.map( level => {
+            return (
+              <div key={ level.id } className="ActivityLevelPanel">
+                <input value={level.multiplier} type="radio" name="chosenActivityLevel" required onChange={ event => this.handleChange(event) }/>
+                <label htmlFor="chosenActivityLevel">Name: { level.name }</label>
+                <br/>
+                <label htmlFor="chosenActivityLevel">{ level.description }</label>
+              </div> 
+            )
+          });
+
         return (
             <div className="bmr-container">
             <h1>BMR Component Works</h1>
-            <form>
+            <form> 
                 <input required type="number" value={ this.state.feet } id="feet" name="feet" min="4" max="7" onChange={ event => this.handleChange(event) }/>
                 <label htmlFor="feet">Feet</label>
                 <input required type="number" value={ this.state.inches } id="inches" name="inches" min="0" max="11" onChange={ event => this.handleChange(event) }/>
@@ -71,16 +86,22 @@ export default class BMR extends Component {
                 <input required type="number" value={ this.state.age } id="age" name="age" min="16" max="100" onChange={ event => this.handleChange(event) }/>
                 <label htmlFor="age">years</label>
                 <br/><br/>
-                <input type="radio" value="female" name="gender" id="female" checked onChange={ event => this.handleChange(event) }/>
+                <input type="radio" value="female" name="gender" required id="female" onChange={ event => this.handleChange(event) }/>
                 <label htmlFor="female">Female</label>
-                <input type="radio" value="male" name="gender" id="male" onChange={ event => this.handleChange(event) }/>
+                <input type="radio" value="male" name="gender" required id="male" onChange={ event => this.handleChange(event) }/>
                 <label htmlFor="male">Male</label>
+                <h3>Choose your current activity level:</h3>
+                { activityLevels }
                 <br/><br/>
                 <button type="button" onClick={ (event) => this.handleClick(event) }>Continue</button>
             </form>
-            <p>{ this.state.bmr }</p>
+            <p>{ this.state.bmr } Calories</p>
             <h1>{ this.view() }</h1>
+            
+            
             </div>
         );
+
+        
     }
 }
