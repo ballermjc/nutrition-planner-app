@@ -17,13 +17,11 @@ export default class BMR extends Component {
     }
 
     handleChange(event) {
-        console.log(event.target.value);
         const category = event.target.name;
         const val = event.target.value;
         this.setState({
             [category]: val
         });
-        console.log(this.state);
     }
 
     calculateBMR() {
@@ -44,7 +42,7 @@ export default class BMR extends Component {
     }
 
     
-    view() {
+    viewActivityLevels() {
         axios.get(`/api/activityLevels`)
         .then( res => {
             let data = res.data;
@@ -73,7 +71,7 @@ export default class BMR extends Component {
 
         return (
             <div className="bmr-container">
-            <h1>BMR Component Works</h1>
+            <h1>BMR Component</h1>
             <form> 
                 <input required type="number" value={ this.state.feet } id="feet" name="feet" min="4" max="7" onChange={ event => this.handleChange(event) }/>
                 <label htmlFor="feet">Feet</label>
@@ -96,7 +94,7 @@ export default class BMR extends Component {
                 <button type="button" onClick={ (event) => this.handleClick(event) }>Continue</button>
             </form>
             <p>{ this.state.bmr } Calories</p>
-            <h1>{ this.view() }</h1>
+            <h1>{ this.viewActivityLevels() }</h1>
             
             
             </div>
