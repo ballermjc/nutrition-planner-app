@@ -14,13 +14,15 @@ export default class Macros extends Component {
     }
 
     handleChange(event) {
-        console.log(event.target.value);
         const category = event.target.name;
         const val = event.target.value;
         this.setState({
-            [category]: val
+            [category]: val,
+            proteinMacro: this.state.nutritionPlans[val].proteinMacro,
+            fatMacro: this.state.nutritionPlans[val].fatMacro,
+            carbMacro: this.state.nutritionPlans[val].carbMacro
         });
-        console.log(this.state.nutritionPlans[this.state.chosenNutritionPlanID].proteinMacro);
+        console.log(this.state);
     }
 
 
@@ -50,8 +52,15 @@ export default class Macros extends Component {
         return(
             <div>
                 <h1>Macros Component</h1>
-                { nutritionPlans }
+                <form>
+                    { nutritionPlans }
+                    <button type="button">Continue</button>
+                </form>
+                
                 <p>{ this.viewNutritionPlans() }</p>
+                <h3>Protein Macros: {Math.round(100*this.state.proteinMacro)}</h3>
+                <h3>Fat Macros: {Math.round(100*this.state.fatMacro)}</h3>
+                <h3>Carb Macros: {Math.round(100*this.state.carbMacro)}</h3>
             </div>
         );
     }
