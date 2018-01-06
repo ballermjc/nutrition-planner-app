@@ -10,7 +10,7 @@ export default class BMR extends Component {
             weight: null,
             gender: '',
             age: null,
-            bmr: null,
+            // bmr: null,
             activityLevels: [],
             chosenActivityLevel: null
         };
@@ -25,12 +25,13 @@ export default class BMR extends Component {
     }
 
     calculateBMR() {
-        let weight = this.state.weight;
+        let gender = this.state.gender;
+        let height = (Number(this.state.feet * 12) + Number(this.state.inches)) * 2.54;
+        let weight = Number(this.state.weight / 2.2);
+        let age = Number(this.state.age);
         let multiplier = this.state.chosenActivityLevel;
-        let bmr = Math.round(24*.925*multiplier*weight/2.2);
-        this.setState({
-            bmr: bmr
-        });
+        let bmr = gender === "male" ? Math.round(multiplier * (height * 6.25 + weight * 9.99 - age * 4.92 + 5)) : Math.round(multiplier * (height * 6.25 + weight * 9.99 - age * 4.92 - 161));
+        this.props.changeBMR(bmr);
         console.log(this.state);
     }
 
@@ -71,7 +72,7 @@ export default class BMR extends Component {
 
         return (
             <div className="bmr-container">
-            <h1>BMR Component</h1>
+            <h1>Calculate Your Daily Caloric Needs</h1>
             <form> 
                 <input required type="number" value={ this.state.feet } id="feet" name="feet" min="4" max="7" onChange={ event => this.handleChange(event) }/>
                 <label htmlFor="feet">Feet</label>
@@ -91,9 +92,9 @@ export default class BMR extends Component {
                 <h3>Choose your current activity level:</h3>
                 { activityLevels }
                 <br/><br/>
-                <button type="button" onClick={ (event) => this.handleClick(event) }>Continue</button>
+                <button type="button" onClick={ (event) => this.handleClick(event) }>Calculate</button>
             </form>
-            <p>{ this.state.bmr } Calories</p>
+            <h3>{ this.props.bmr } Calories Per Day</h3>
             <h1>{ this.viewActivityLevels() }</h1>
             
             
